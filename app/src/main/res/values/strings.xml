@@ -3,4 +3,8 @@
     <string name="perm_title">Permission Request</string>
     <string name="perm_desc">This app requires storage permission to check your wallpaper is safe. Please allow it or it won\'t work.</string>
     <string name="credit">Craftingmod\nhttps://github.com/craftingmod/safeMountain</string>
+    <string name="help_title">What is this app?</string>
+    <string name="help_desc">This app tries to fix systemui crash from wallpaper on boot. Check twitte what the wallpaper is.</string>
+
+    <string name="button_where">Twitter</string>
 </resources>

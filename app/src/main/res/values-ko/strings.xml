@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">Safe Wallpaper</string>
-<string name="perm_title">권한 필요</string>
-<string name="perm_desc">배경화면이 안전한지 확인하기 위해서는 파일 접근 권한이 필요합니다. 권한 없이는 동작하지 않습니다.</string>
-<string name="credit">벨붕\nhttps://github.com/craftingmod/safeMountain</string>
+    <string name="app_name">Safe Wallpaper</string>
+    <string name="perm_title">권한 필요</string>
+    <string name="perm_desc">배경화면이 안전한지 확인하기 위해서는 파일 접근 권한이 필요합니다. 권한 없이는 동작하지 않습니다.</string>
+    <string name="credit">벨붕\nhttps://github.com/craftingmod/safeMountain</string>
+    <string name="help_title">이 앱은 뭔가요?</string>
+    <string name="help_desc">배경화면으로 인한 무한강종 상태일 때 재부팅 시에 배경화면을 없애줍니다.\n그 배경화면이 무엇인지는 트위터를 참고해주세요.</string>
+
+    <string name="button_where">트위터</string>
 </resources>

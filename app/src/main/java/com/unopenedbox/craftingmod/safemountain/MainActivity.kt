@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -54,10 +56,10 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            1523 -> finish()
-            else -> GlobalScope.launch {
+            1523 -> GlobalScope.launch {
                 fixWallpaper()
             }
+            else -> finish()
         }
     }
 
@@ -85,22 +87,34 @@ class MainActivity : AppCompatActivity() {
         return isSafe
     }
 
-    suspend fun checkSafe(stream:InputStream) {
-        Log.d("Grays", "HEllo, World!")
-        val bitmap = withContext(Dispatchers.IO) {
-            BitmapFactory.decodeStream(resources.openRawResource(R.raw.death_mountain))
-        }
-        val grays = withContext(Dispatchers.Default) {
-            Log.d("SafeMountain", "Color1 : ${bitmap.getPixel(153, 1265).toUInt().toString(16)}")
-            ImageProcessHelper.Threshold.getHistogramPublic(bitmap)
-        }
-        Log.d("SafeMountain", grays.size.toString())
-        Log.d("SafeMountain", "=======================")
-        val cutBitmap = withContext(Dispatchers.IO) {
-            BitmapFactory.decodeStream(resources.openRawResource(R.raw.cut_sunrise))
-        }
-        val grays2 = withContext(Dispatchers.Default) {
-            ImageProcessHelper.Threshold.getHistogramPublic(cutBitmap)
-        }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        return true
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_help -> MaterialDialog(this).show {
+                title(R.string.help_title)
+                message(R.string.help_desc)
+                positiveButton(android.R.string.ok)
+                negativeButton(R.string.button_where) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/UniverseIce/status/1266943909499826176")).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    })
+                }
+            }
+            R.id.action_osl -> {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/craftingmod/safeMountain/blob/master/OSL.md")).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                })
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
+
+
+
 }
