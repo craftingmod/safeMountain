@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Safe Wallpaper</string>
+    <string name="perm_title">Permission Request</string>
+    <string name="perm_desc">This app requires storage permission to check your wallpaper is safe. Please allow it or it won\'t work.</string>
+    <string name="credit">Craftingmod\nhttps://github.com/craftingmod/safeMountain</string>
+</resources>

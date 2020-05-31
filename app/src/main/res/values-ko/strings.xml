@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">Safe Wallpaper</string>
+<string name="perm_title">권한 필요</string>
+<string name="perm_desc">배경화면이 안전한지 확인하기 위해서는 파일 접근 권한이 필요합니다. 권한 없이는 동작하지 않습니다.</string>
+<string name="credit">벨붕\nhttps://github.com/craftingmod/safeMountain</string>
+</resources>
