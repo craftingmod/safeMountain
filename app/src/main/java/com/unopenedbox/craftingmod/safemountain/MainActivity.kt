@@ -62,12 +62,12 @@ class MainActivity : AppCompatActivity() {
         }
         serviceCheck.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                if (!sp.getBoolean("advised_BO", false)) {
+                if (!sp.getBoolean("advised_BO", false) && !Util.isIgnoringBO(this)) {
                     MaterialDialog(this).show {
                         message(R.string.suggest_battery_optimize)
                         positiveButton(android.R.string.ok) {
                             sp.edit().putBoolean("advised_BO", true).apply()
-                            sp.edit().putBoolean("use_service", false).apply()
+                            sp.edit().putBoolean("use_service", true).apply()
                             startService(Intent(this@MainActivity, WallpaperChangeDetector::class.java))
                         }
                         negativeButton(R.string.bo_button) {
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    sp.edit().putBoolean("use_service", false).apply()
+                    sp.edit().putBoolean("use_service", true).apply()
                     startService(Intent(this, WallpaperChangeDetector::class.java))
                 }
             } else {

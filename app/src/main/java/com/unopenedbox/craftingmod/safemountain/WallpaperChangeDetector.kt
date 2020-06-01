@@ -31,7 +31,9 @@ class WallpaperChangeDetector : Service() {
     private lateinit var sp:SharedPreferences
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (!Util.isIgnoringBO(this)) {
+        if (!sp.getBoolean("use_service", false)) {
+            stopSelf()
+        } else if (!Util.isIgnoringBO(this)) {
             startForeground(7341, Notification.Builder(this, channel.id).apply {
                 setSmallIcon(R.drawable.ic_help)
                 setContentTitle(getString(R.string.servicenoti_title))
@@ -73,16 +75,5 @@ class WallpaperChangeDetector : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
-
-    override fun onTaskRemoved(rootIntent: Intent?) {
-        if (sp.getBoolean("use_service", false) && !Util.isIgnoringBO(this)) {
-            val intent = Intent(applicationContext, WallpaperChangeDetector::class.java)
-            val pendingIntent = PendingIntent.getService(this, 1, intent, PendingIntent.FLAG_ONE_SHOT)
-            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + 5000, pendingIntent)
-        }
-        super.onTaskRemoved(rootIntent)
-    }
-
 
 }
