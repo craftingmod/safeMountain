@@ -2,23 +2,28 @@ package com.unopenedbox.craftingmod.safemountain
 
 import android.Manifest
 import android.app.WallpaperManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.callbacks.onCancel
 import com.android.systemui.glwallpaper.ImageProcessHelper
 import kotlinx.coroutines.*
-import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var serviceCheck:CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,40 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/craftingmod/safeMountain")).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
             })
+        }
+        val sp = getSharedPreferences("setting", Context.MODE_PRIVATE)
+        serviceCheck = findViewById<CheckBox>(R.id.service_checkbox)
+        val useService = sp.getBoolean("use_service", false)
+        serviceCheck.isChecked = useService
+        if (useService) {
+            startService(Intent(this, WallpaperChangeDetector::class.java))
+        }
+        serviceCheck.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                if (!sp.getBoolean("advised_BO", false)) {
+                    MaterialDialog(this).show {
+                        message(R.string.suggest_battery_optimize)
+                        positiveButton(android.R.string.ok) {
+                            sp.edit().putBoolean("advised_BO", true).apply()
+                            sp.edit().putBoolean("use_service", false).apply()
+                            startService(Intent(this@MainActivity, WallpaperChangeDetector::class.java))
+                        }
+                        negativeButton(R.string.bo_button) {
+                            startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
+                            serviceCheck.isChecked = false;
+                        }
+                        onCancel {
+                            serviceCheck.isChecked = false;
+                        }
+                    }
+                } else {
+                    sp.edit().putBoolean("use_service", false).apply()
+                    startService(Intent(this, WallpaperChangeDetector::class.java))
+                }
+            } else {
+                sp.edit().putBoolean("use_service", false).apply()
+                stopService(Intent(this, WallpaperChangeDetector::class.java))
+            }
         }
     }
 
@@ -115,6 +154,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-
+    override fun onBackPressed() {
+        finish()
+    }
 
 }

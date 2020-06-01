@@ -5,6 +5,12 @@
     <string name="credit">Craftingmod\nhttps://github.com/craftingmod/safeMountain</string>
     <string name="help_title">What is this app?</string>
     <string name="help_desc">This app tries to fix systemui crash from wallpaper on boot. Check twitte what the wallpaper is.</string>
+    <string name="persist_service">Detect wallpaper change</string>
+    <string name="servicenoti_title">Safe Wallpaper</string>
+    <string name="servicenoti_desc">Due to limitation of receiving wallpaper change event, This notification should exists for working. Please hide notification for simple.</string>
+
+    <string name="suggest_battery_optimize">Without disabling battery optimization, Service needs to run as foreground service with notification.</string>
+    <string name="bo_button">Open Settings</string>
 
     <string name="button_where">Twitter</string>
 </resources>

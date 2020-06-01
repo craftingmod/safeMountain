@@ -5,6 +5,7 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.os.PowerManager
 import androidx.core.content.ContextCompat
 import com.android.systemui.glwallpaper.ImageProcessHelper
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,8 @@ class Util {
                 ImageProcessHelper.Threshold.isSafe(bitmap)
             }
         }
-
+        fun isIgnoringBO(context:Context):Boolean {
+            return (context.getSystemService(Context.POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(context.packageName)
+        }
     }
 }
